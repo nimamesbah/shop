@@ -11,6 +11,13 @@ async function getLimitedProducts(count = 4) {
         .then(json => json)
         .catch(err => console.log(err))
 }
+async function getIdProduct(id) {
+    return await fetch(`https://fakestoreapi.com/products/${id}`)
+        .then(res => res.json())
+        .then(json => json)
+        .catch(err => console.log(err))
+    
+}
 
 const mobileMenuContainer = document.getElementById("mobile-menu")
 const headerSlider = document.getElementById("header-slider")
@@ -115,7 +122,7 @@ function dotClick(evt) {
             count++
 
         renderSlider(slides)
-    }, 500000)
+    }, 5000)
 
 }
 
@@ -195,6 +202,35 @@ function handleAClick(evt, link) {
     history.pushState({}, "", `${link}`);
 
     checkState();
+}
+async function renderSingleProduct(){
+    clearInterval(sliderInterval)
+    root.classList.add("flex", "gap-[20px]" ,"w-full","items-center")
+    const {title,image,price,description} = await getIdProduct(Number(location.pathname.split("/").at(-1))) 
+    const isLowPrice = price < 100
+    const template = `<a   class="w-80 block border rounded-xl overflow-hidden relative">
+        <img class="object-contain rounded-xl w-full h-96" src="${image}" alt="">
+        <div class="p-2">
+            <h4>${title}</h4>
+            <span>${price}$</span>
+        </div>
+    
+        
+        ${isLowPrice ? (`
+            <div class="text-white absolute top-2 right-2 w-max cursor-default rounded-full bg-red-500 px-2 py-1">
+                فروش ویژه
+            </div>
+        `) : ""}
+            
+        
+    </a>
+    <div class="w-1/3 h-[400px] flex flex-col justify-between ">
+        <h4>${description}</h4>
+        <div class="w-max cursor-pointer rounded-lg bg-blue-500 py-2 px-3">اضافه کردن به سبد خرید</div>
+
+    </div>
+    `
+        root.innerHTML=template
 }
 
 async function renderAllProducts() {
