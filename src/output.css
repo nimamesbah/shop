@@ -1001,6 +1001,10 @@ video {
     width: 33.333333%;
   }
 
+  .sm\:grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
   .sm\:flex-row {
     flex-direction: row;
   }
