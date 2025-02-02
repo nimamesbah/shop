@@ -205,7 +205,7 @@ function handleAClick(evt, link) {
 }
 async function renderSingleProduct(){
     clearInterval(sliderInterval)
-    root.classList.add("flex", "gap-[20px]" ,"w-full","items-center")
+    root.classList.add("flex", "gap-[20px]" ,"sm:w-full","sm:items-center","flex-col","sm:flex-row","items-center")
     const {title,image,price,description} = await getIdProduct(Number(location.pathname.split("/").at(-1))) 
     const isLowPrice = price < 100
     const template = `<a   class="w-80 block border rounded-xl overflow-hidden relative">
@@ -217,14 +217,14 @@ async function renderSingleProduct(){
     
         
         ${isLowPrice ? (`
-            <div class="text-white absolute top-2 right-2 w-max cursor-default rounded-full bg-red-500 px-2 py-1">
+            <div class="text-white  absolute top-2 right-2 w-max cursor-default rounded-full bg-red-500 px-2 py-1">
                 فروش ویژه
             </div>
         `) : ""}
             
         
     </a>
-    <div class="w-1/3 h-[400px] flex flex-col justify-between ">
+    <div class="sm:w-1/3 w-4/5 h-max  sm:h-[400px] flex flex-col justify-between sm:items-start items-center gap-5 sm:gap-0 ">
         <h4>${description}</h4>
         <div class="w-max cursor-pointer rounded-lg bg-blue-500 py-2 px-3">اضافه کردن به سبد خرید</div>
 
