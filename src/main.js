@@ -23,6 +23,7 @@ const mobileMenuContainer = document.getElementById("mobile-menu")
 const headerSlider = document.getElementById("header-slider")
 let sliderContainer;
 const root = document.getElementById("root")
+const CART = JSON.parse(localStorage.getItem("cart")) ?? []
 
 let lastSlideElement;
 let count = 0
@@ -125,6 +126,39 @@ function dotClick(evt) {
     }, 5000)
 
 }
+async function renderCart() {
+    const cartData = []
+    for (const cartItem of CART) {
+        const result = await getIdProduct(cartItem.id);
+        cartData.push(result)
+    }
+
+    const template = cartData.map((item) => {
+
+        return `
+        <div>
+            <h3>${item.title}</h3>
+            <img src='${item.image}' width="200" />
+        </div>
+        `
+    }).join("");
+
+    root.innerHTML = template
+}
+function removeFromCart(pId) {
+    
+    const foundIndex = CART.findIndex(item => item.id === pId)
+    CART.splice(foundIndex, 1);
+    localStorage.setItem("cart", JSON.stringify(CART))
+    renderSingleProduct();
+}
+
+const addToCart = (pId) => {
+    CART.push({id: pId,quantity: 0});
+    localStorage.setItem("cart", JSON.stringify(CART))
+    renderSingleProduct();
+    console.log(CART)
+}
 
 function renderProductCard({ id, price, image, title }) {
 
@@ -201,12 +235,12 @@ function handleAClick(evt, link) {
 
     history.pushState({}, "", `${link}`);
 
-    checkState();
+    router();
 }
 async function renderSingleProduct(){
     clearInterval(sliderInterval)
     root.classList.add("flex", "gap-[20px]" ,"sm:w-full","sm:items-center","flex-col","sm:flex-row","items-center")
-    const {title,image,price,description} = await getIdProduct(Number(location.pathname.split("/").at(-1))) 
+    const {title,image,price,description,id} = await getIdProduct(Number(location.pathname.split("/").at(-1))) 
     const isLowPrice = price < 100
     const template = `<a   class="w-80 block border rounded-xl overflow-hidden relative">
         <img class="object-contain rounded-xl w-full h-96" src="${image}" alt="">
@@ -226,9 +260,16 @@ async function renderSingleProduct(){
     </a>
     <div class="sm:w-1/3 w-4/5 h-max  sm:h-[400px] flex flex-col justify-between sm:items-start items-center gap-5 sm:gap-0 ">
         <h4>${description}</h4>
-        <div class="w-max cursor-pointer rounded-lg bg-blue-500 py-2 px-3">اضافه کردن به سبد خرید</div>
+        ${CART.find(cartItem => cartItem.id===id) ? (
+            `
+            <div onclick='removeFromCart(${id})' class="w-max cursor-pointer rounded-lg bg-red-500 py-2 px-3" > حذف از سبد خرید</div>
+            `
+        ) : (`<div onclick='addToCart(${id})' class="w-max cursor-pointer rounded-lg bg-blue-500 py-2 px-3" > اضافه کردن به سبد خرید</div>`)
+        }
+        
+    </div >
 
-    </div>
+    <a onclick="handleAClick(event, 'cart')" href='cart'>cart</a>
     `
         root.innerHTML=template
 }
@@ -290,7 +331,7 @@ function animateHeaderSlider() {
 
 setInterval(animateHeaderSlider, 20);
 
-function checkState() {
+function router() {
     let currentAddress = location.pathname;
     currentAddress = currentAddress.split('/').at(-1)
 
@@ -304,9 +345,13 @@ function checkState() {
         case (location.pathname.match(/[/]src[/]product[/][0-9]{1,}/) !== null):
             renderSingleProduct();
             break;
+        case currentAddress === 'cart':
+            renderCart();
+            break;
         default:
             break;
     }
 
 
 }
+window.addEventListener("popstate", router)
