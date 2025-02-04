@@ -136,14 +136,18 @@ async function renderCart() {
     const template = cartData.map((item) => {
 
         return `
-        <div>
+        <div class="border flex flex-col gap-3  ">
             <h3>${item.title}</h3>
-            <img src='${item.image}' width="200" />
+            <img class="object-contain w-full h-96" src='${item.image}' width="200" />
+            <h4>amount:${CART.find(cartItem=> cartItem.id===item.id).quantity} </h4>
         </div>
         `
     }).join("");
+    const container = `<div class="grid grid-cols-4 mx-auto w-full ">${template}
 
-    root.innerHTML = template
+     </div>`
+
+    root.innerHTML = container
 }
 function removeFromCart(pId) {
     
@@ -154,7 +158,7 @@ function removeFromCart(pId) {
 }
 
 const addToCart = (pId) => {
-    CART.push({id: pId,quantity: 0});
+    CART.push({id: pId,quantity: +(document.getElementById("quantityInput").value) });
     localStorage.setItem("cart", JSON.stringify(CART))
     renderSingleProduct();
     console.log(CART)
@@ -260,18 +264,28 @@ async function renderSingleProduct(){
     </a>
     <div class="sm:w-1/3 w-4/5 h-max  sm:h-[400px] flex flex-col justify-between sm:items-start items-center gap-5 sm:gap-0 ">
         <h4>${description}</h4>
-        ${CART.find(cartItem => cartItem.id===id) ? (
-            `
-            <div onclick='removeFromCart(${id})' class="w-max cursor-pointer rounded-lg bg-red-500 py-2 px-3" > حذف از سبد خرید</div>
-            `
-        ) : (`<div onclick='addToCart(${id})' class="w-max cursor-pointer rounded-lg bg-blue-500 py-2 px-3" > اضافه کردن به سبد خرید</div>`)
-        }
+        <div class="w-max flex">
+            <input class="inline w-14 border " id="quantityInput" type="number" min="1"/>
+            ${CART.find(cartItem => cartItem.id===id) ? (
+                `
+                <div onclick='removeFromCart(${id})' class="w-max cursor-pointer rounded-lg bg-red-500 py-2 px-3" > حذف از سبد خرید</div>
+                `
+            ) : (`<div onclick='addToCart(${id})' class="w-max cursor-pointer rounded-lg bg-blue-500 py-2 px-3" > اضافه کردن به سبد خرید</div>`)
+            }
+    
+        </div>
+        
+        
         
     </div >
+    
+
 
     <a onclick="handleAClick(event, 'cart')" href='cart'>cart</a>
     `
         root.innerHTML=template
+        document.getElementById("quantityInput").value=1
+
 }
 
 async function renderAllProducts() {
@@ -313,6 +327,7 @@ function NextPrev(evt) {
 
     renderSlider(slides)
 }
+
 
 function toggleMobileMenu() {
     mobileMenuContainer.classList.toggle("!hidden")
