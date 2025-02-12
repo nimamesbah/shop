@@ -228,6 +228,7 @@ async function renderMainPage() {
 
         renderSlider(slides)
     }, 5000)
+    root.classList.remove("flex", "gap-[20px]" ,"sm:w-full","sm:items-center","flex-col","sm:flex-row","items-center")
 
 
 }
