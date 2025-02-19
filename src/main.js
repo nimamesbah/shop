@@ -57,7 +57,7 @@ const slides = [
 function renderSlider(items) {
     let template = `
             <div id="slide" class=" w-full h-full  inline-block  absolute top-0 left-0">
-                <img class="w-1/3 sm:w-1/5 absolute bottom-0 duration-1000 left-[-15.5rem]" src="./public/images/images/${items[count].img}" width="500" />
+                <img class="w-[200px] sm:w-[350px] absolute bottom-0 duration-1000 left-[-15.5rem]" src="./public/images/images/${items[count].img}" width="500" />
 
                 <span class="absolute duration-1000 top-1/2 right-[-15.5rem] max-w-80">
                 ${items[count].title}
@@ -132,6 +132,7 @@ async function renderCart() {
         const result = await getIdProduct(cartItem.id);
         cartData.push(result)
     }
+    
 
     const template = cartData.map((item) => {
 
@@ -140,10 +141,12 @@ async function renderCart() {
             <h3>${item.title}</h3>
             <img class="object-contain w-full h-96" src='${item.image}' width="200" />
             <h4>amount:${CART.find(cartItem=> cartItem.id===item.id).quantity} </h4>
+            <div onclick='removeFromCart(${item.id})' class="w-max cursor-pointer rounded-lg bg-red-500 py-2 px-3" > حذف از سبد خرید</div>
+
         </div>
         `
     }).join("");
-    const container = `<div class="grid grid-cols-4 mx-auto w-full ">${template}
+    const container = `<div class="grid grid-cols-1 sm:grid-cols-4 mx-auto w-full gap-2.5 mt-[110px] sm:mt-0 ">${template}
 
      </div>`
 
@@ -154,7 +157,12 @@ function removeFromCart(pId) {
     const foundIndex = CART.findIndex(item => item.id === pId)
     CART.splice(foundIndex, 1);
     localStorage.setItem("cart", JSON.stringify(CART))
-    renderSingleProduct();
+    if(location.pathname.split("/").at(-1)=== 'cart')
+        renderCart()
+    else 
+        renderSingleProduct();
+
+        
 }
 
 const addToCart = (pId) => {
@@ -202,9 +210,9 @@ async function renderMainPage() {
     }).join("")
 
     const container = `
-    <div id="slider" class="overflow-hidden duration-1000 relative h-[50vh] md:h-[70vh] w-full whitespace-nowrap">
+    <div id="slider" class="overflow-hidden duration-1000 relative h-[50vh] md:h-[480px] w-full whitespace-nowrap">
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-2">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-2 p-3 sm:p-0">
         ${template}
     </div>
     <div class="flex justify-center mt-10">
@@ -247,7 +255,7 @@ async function renderSingleProduct(){
     root.classList.add("flex", "gap-[20px]" ,"sm:w-full","sm:items-center","flex-col","sm:flex-row","items-center")
     const {title,image,price,description,id} = await getIdProduct(Number(location.pathname.split("/").at(-1))) 
     const isLowPrice = price < 100
-    const template = `<a   class="w-80 block border rounded-xl overflow-hidden relative">
+    const template = `<a   class="w-80 block border rounded-xl overflow-hidden relative mt-[110px]">
         <img class="object-contain rounded-xl w-full h-96" src="${image}" alt="">
         <div class="p-2">
             <h4>${title}</h4>
@@ -298,7 +306,7 @@ async function renderAllProducts() {
     }).join("");
 
     const container = `
-    <div class="grid sm:grid-cols-4 grid-cols-1 gap-2">
+    <div class="grid sm:grid-cols-4 grid-cols-1 gap-2 p-3 sm:p-0 mt-[110px] sm:mt-0">
         ${template}
     </div>
     `
