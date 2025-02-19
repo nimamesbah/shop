@@ -325,6 +325,17 @@ function NextPrev(evt) {
             count++
 
     }
+    clearInterval(sliderInterval)
+    sliderInterval =setInterval(() => {
+        document.getElementById("slide").remove
+
+        if (count === 2)
+            count = 0
+        else
+            count++
+
+        renderSlider(slides)
+    }, 5000)
 
     renderSlider(slides)
 }
