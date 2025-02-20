@@ -38,3 +38,6 @@
 #dots{
     direction: ltr;
 }
+body{
+    margin: 0 auto;
+}

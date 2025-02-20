@@ -8,31 +8,32 @@
     <link rel="stylesheet" href="output.css">
 </head>
 <body class="flex justify-between w-full">
-    <a  href='product/${id}' class="w-80 block border rounded-xl overflow-hidden relative">
-        <img class="object-contain rounded-xl w-full h-96" src="./public/images/images/gholaam.webp" alt="">
+    <a   class="w-80  block   relative mt-[110px] sm:mt-0">
+        <img class=" rounded-xl w-full h-96 bg-gray-500 animate-pulse" src="" alt="">
         <div class="p-2">
-            <h4>${title}</h4>
-            <span>${price}$</span>
+            <h4 class="bg-gray-500 animate-pulse w-[60px] h-9">${title}</h4>
+            <span class="bg-gray-500 animate-pulse w-[60px] h-9"> ${price}$</span>
         </div>
     
         
-                <div class="text-white absolute top-2 right-2 w-max cursor-default rounded-full bg-red-500 px-2 py-1">
-                    
-                </div>
+            <div class="text-white  absolute top-2 right-2 w-max cursor-default rounded-full bg-red-500 px-2 py-1">
+                فروش ویژه
+            </div>
             
-        <div class="absolute p-2 rounded-full cursor-pointer top-2 left-2 bg-white shadow-xl hover:bg-red-500">
-            <svg width="26px" height="26px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 6.00019C10.2006 3.90317 7.19377 3.2551 4.93923 5.17534C2.68468 7.09558 2.36727 10.3061 4.13778 12.5772C5.60984 14.4654 10.0648 18.4479 11.5249 19.7369C11.6882 19.8811 11.7699 19.9532 11.8652 19.9815C11.9483 20.0062 12.0393 20.0062 12.1225 19.9815C12.2178 19.9532 12.2994 19.8811 12.4628 19.7369C13.9229 18.4479 18.3778 14.4654 19.8499 12.5772C21.6204 10.3061 21.3417 7.07538 19.0484 5.17534C16.7551 3.2753 13.7994 3.90317 12 6.00019Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-        </div>
+        
     </a>
-    <div class="w-2/3 h-full ">
-        <h4>${description}</h4>
-        <div class="w-max rounded-lg bg-blue-500 py-2 px-3">اضافه کردن به سبد خرید</div>
+    <div class="sm:w-1/3 w-4/5 h-max  sm:h-[400px] flex flex-col justify-between sm:items-start items-center gap-5 sm:gap-0  ">
+        <h4 class="w-[300px] h-[400px] bg-gray-500 animate-pulse">${description}</h4>
+        
+        
+        
+        
+    </div >
+    <div class="flex flex-col gap-20">
+        <div class="w-[80%] mx-auto mt-16 ">سبد شما خالیست</div>
+        <div onclick="emptyCart()" class="w-28 py-3.5 px-4 bg-blue-400 rounded-4xl hover:bg-gray-600 duration-200 cursor-pointer">بازگشت</div>
+        
 
-    </div>
-    <div class="inline-flex w-max " >
-        <input id="quantityInput" type="number" min="1">
     </div>
     
 </body>

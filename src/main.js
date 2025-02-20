@@ -127,12 +127,30 @@ function dotClick(evt) {
 
 }
 async function renderCart() {
+    root.innerHTML=`
+
+<div role="status" class="mx-auto mt-36 w-32">
+    <svg aria-hidden="true" class="w-32  text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
+        <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
+    </svg>
+    <span class="sr-only">Loading...</span>
+</div>
+
+`
     const cartData = []
     for (const cartItem of CART) {
         const result = await getIdProduct(cartItem.id);
         cartData.push(result)
     }
-    
+    if(cartData.length===0)
+        root.innerHTML=`<div class="flex flex-col gap-5 items-center w-full">
+        <div class="w-max  mt-16 ">سبد شما خالیست</div>
+        <div onclick="emptyCart()" class="w-max py-3.5 px-4 bg-blue-400 rounded-4xl hover:bg-gray-600 duration-200 cursor-pointer">بازگشت</div>
+        
+
+    </div>`
+        else{
 
     const template = cartData.map((item) => {
 
@@ -150,7 +168,12 @@ async function renderCart() {
 
      </div>`
 
+
     root.innerHTML = container
+}
+}
+function emptyCart(){
+    history.back()
 }
 function removeFromCart(pId) {
     
@@ -179,7 +202,7 @@ function renderProductCard({ id, price, image, title }) {
     const isLowPrice = price < 100;
 
     const template = `
-    <a onclick="handleAClick(event, 'product/${id}')" href='product/${id}' class="w-full border rounded-xl overflow-hidden relative">
+    <a onclick="handleAClick(event, 'product/${id}')" href='product/${id}' class="w-full border rounded-xl overflow-hidden shadow-2xl relative">
     <img class="object-contain rounded-xl w-full h-96" src="${image}" alt="">
     <div class="p-2">
         <h4>${title}</h4>
@@ -251,11 +274,32 @@ function handleAClick(evt, link) {
     router();
 }
 async function renderSingleProduct(){
+    root.innerHTML=`<a   class="w-80  block  rounded-xl border border-black animate-pulse relative mt-[110px] sm:mt-0">
+        <img class=" rounded-xl w-full h-96 bg-gray-200  animate-pulse" src="" alt="">
+        <div class="p-2">
+            <h4 class="bg-gray-200 animate-pulse w-[60px] h-9"></h4>
+            <span class="bg-gray-200 animate-pulse w-[60px] h-9"> </span>
+        </div>
+    
+        
+            
+            
+        
+    </a>
+    <div class="sm:w-1/3 w-4/5 h-max  sm:h-[400px] flex flex-col justify-between sm:items-start items-center gap-5 sm:gap-0  ">
+        <h4 class="w-[300px] h-[400px] bg-gray-200 animate-pulse"></h4>
+        
+        
+        
+        
+    </div >
+    `
+
     clearInterval(sliderInterval)
     root.classList.add("flex", "gap-[20px]" ,"sm:w-full","sm:items-center","flex-col","sm:flex-row","items-center")
     const {title,image,price,description,id} = await getIdProduct(Number(location.pathname.split("/").at(-1))) 
     const isLowPrice = price < 100
-    const template = `<a   class="w-80 block border rounded-xl overflow-hidden relative mt-[110px]">
+    const template = `<a   class="w-80 shadow-2xl block border rounded-xl overflow-hidden relative mt-[110px] sm:mt-0">
         <img class="object-contain rounded-xl w-full h-96" src="${image}" alt="">
         <div class="p-2">
             <h4>${title}</h4>
@@ -271,16 +315,17 @@ async function renderSingleProduct(){
             
         
     </a>
-    <div class="sm:w-1/3 w-4/5 h-max  sm:h-[400px] flex flex-col justify-between sm:items-start items-center gap-5 sm:gap-0 ">
+    <div class="sm:w-1/3 w-4/5 h-max  sm:h-[400px] flex flex-col justify-between sm:items-start items-center gap-5 sm:gap-0  ">
         <h4>${description}</h4>
-        <div class="w-max flex">
-            <input class="inline w-14 border " id="quantityInput" type="number" min="1"/>
+        <div class="w-max flex gap-3">
+            <input class="inline w-14 border rounded-xl " id="quantityInput" type="number" min="1"/>
             ${CART.find(cartItem => cartItem.id===id) ? (
                 `
-                <div onclick='removeFromCart(${id})' class="w-max cursor-pointer rounded-lg bg-red-500 py-2 px-3" > حذف از سبد خرید</div>
+                <div onclick='removeFromCart(${id})' class="w-max cursor-pointer rounded-lg duration-150 bg-red-500 hover:bg-gray-300 py-2 px-3" > حذف از سبد خرید</div>
                 `
-            ) : (`<div onclick='addToCart(${id})' class="w-max cursor-pointer rounded-lg bg-blue-500 py-2 px-3" > اضافه کردن به سبد خرید</div>`)
+            ) : (`<div onclick='addToCart(${id})' class="w-max cursor-pointer rounded-lg duration-150 bg-blue-500 hover:bg-gray-300 py-2 px-3" > اضافه کردن به سبد خرید</div>`)
             }
+            <a class="border  py-2 px-8 hover:text-white hover:bg-gray-800 rounded-xl duration-200" onclick="handleAClick(event, 'cart')" href='cart'>سبد خرید</a>
     
         </div>
         
@@ -290,7 +335,7 @@ async function renderSingleProduct(){
     
 
 
-    <a onclick="handleAClick(event, 'cart')" href='cart'>cart</a>
+    
     `
         root.innerHTML=template
         document.getElementById("quantityInput").value=1
