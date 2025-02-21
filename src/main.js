@@ -244,12 +244,12 @@ async function renderMainPage() {
     }).join("")
 
     const container = `
-    <div id="slider" class="overflow-hidden duration-1000 relative h-[50vh] md:h-[480px] w-full whitespace-nowrap">
+    <div id="slider" class="overflow-hidden  duration-1000 relative h-[50vh] md:h-[480px] w-full whitespace-nowrap">
     </div>
     <div class="grid grid-cols-1 md:grid-cols-4 gap-2 p-3 sm:p-0">
         ${template}
     </div>
-    <div class="flex justify-center mt-10">
+    <div class="flex justify-center mt-10 mb-16">
         <a onclick="handleAClick(event, 'all-products')" class="bg-blue-400 rounded-md px-4 py-2 text-white" href='all-products'>نمایش همه محصولات</a>
     </div>
     `
@@ -326,7 +326,7 @@ async function renderSingleProduct(){
             
         
     </a>
-    <div class="sm:w-1/3 w-4/5 h-max  sm:h-[400px] flex mb-14 flex-col justify-between sm:items-start items-center gap-5 sm:gap-0  ">
+    <div class="sm:w-1/3 w-4/5 h-max  sm:h-[400px] flex mb-7 flex-col justify-between sm:items-start items-center gap-5 sm:gap-0  ">
         <h4>${description}</h4>
         <div class="w-max flex gap-3">
             <input class="inline w-14 border rounded-xl " id="quantityInput" type="number" min="1"/>
@@ -343,6 +343,12 @@ async function renderSingleProduct(){
         
         
     </div >
+    <div class="flex flex-col gap-5 mb-16 items-center w-full sm:absolute sm:w-max top-[365px] left-[20px] ">
+        
+        <div onclick="emptyCart()" class="w-max py-3.5 px-4 bg-blue-400 rounded-4xl hover:bg-gray-600 duration-200 cursor-pointer">بازگشت</div>
+        
+
+    </div>
     
 
 
@@ -362,7 +368,7 @@ async function renderAllProducts() {
     }).join("");
 
     const container = `
-    <div class="grid sm:grid-cols-4 grid-cols-1 gap-2 p-3 sm:p-0 mt-[110px] sm:mt-0">
+    <div class="grid sm:grid-cols-4 grid-cols-1 gap-2 p-3 sm:p-0 mt-[110px] sm:mt-0 mb-20">
         ${template}
     </div>
     `
