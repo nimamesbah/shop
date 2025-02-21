@@ -368,7 +368,7 @@ async function renderAllProducts() {
     }).join("");
 
     const container = `
-    <div class="grid sm:grid-cols-4 grid-cols-1 gap-2 p-3 sm:p-0 mt-[110px] sm:mt-0 mb-20">
+    <div class="grid sm:grid-cols-4 grid-cols-1 gap-2 p-3 sm:p-6 mt-[110px] sm:mt-0 mb-20 ">
         ${template}
     </div>
     `
