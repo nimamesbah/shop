@@ -18,6 +18,13 @@ async function getIdProduct(id) {
         .catch(err => console.log(err))
     
 }
+async function getSort(sort) {
+    // debugger
+    return await fetch(`https://fakestoreapi.com/products/category/${sort}`)
+    .then(res=> res.json())
+    .then(json => json)
+    .catch(err => console.log(err))
+}
 
 const mobileMenuContainer = document.getElementById("mobile-menu")
 const headerSlider = document.getElementById("header-slider")
@@ -127,9 +134,10 @@ function dotClick(evt) {
 
 }
 async function renderCart() {
+    clearInterval(sliderInterval);
     root.innerHTML=`
 
-<div role="status" class="mx-auto mt-36 w-32">
+<div role="status" class="mx-auto mt-36 mb-36 w-32">
     <svg aria-hidden="true" class="w-32  text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
         <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
@@ -175,6 +183,27 @@ async function renderCart() {
 function emptyCart(){
     history.back()
 }
+async function sortHandle(sort){
+    clearInterval(sliderInterval);
+    root.innerHTML=`
+
+<div role="status" class="mx-auto mt-36 w-32">
+    <svg aria-hidden="true" class="w-32  text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
+        <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
+    </svg>
+    <span class="sr-only">Loading...</span>
+</div>
+
+`
+    const products = await getSort(sort)
+    const result = products.map(product => renderProductCard(product) ).join("")
+    const template= `<div class="grid grid-cols-1 sm:grid-cols-4 w-full gap-4 mt-26 sm:mt-0 p-6">
+        ${result}
+    </div>`
+    root.innerHTML=template
+    console.log(products)
+}
 function removeFromCart(pId) {
     
     const foundIndex = CART.findIndex(item => item.id === pId)
@@ -193,6 +222,9 @@ const addToCart = (pId) => {
     localStorage.setItem("cart", JSON.stringify(CART))
     renderSingleProduct();
     console.log(CART)
+}
+function sortMobileToggle() {
+    document.getElementById("sortListMobile").classList.toggle("scale-y-0")
 }
 
 function renderProductCard({ id, price, image, title }) {
@@ -281,10 +313,12 @@ function handleAClick(evt, link) {
     evt.preventDefault();
 
     history.pushState({}, "", `${link}`);
+    document.getElementById("mobile-menu").classList.add("scale-x-0")
 
     router();
 }
 async function renderSingleProduct(){
+    clearInterval(sliderInterval);
     root.innerHTML=`<a   class="w-80  block  rounded-xl border border-black animate-pulse relative mt-[110px] sm:mt-0">
         <img class=" rounded-xl w-full h-96 bg-gray-200  animate-pulse" src="" alt="">
         <div class="p-2">
@@ -360,6 +394,7 @@ async function renderSingleProduct(){
 }
 
 async function renderAllProducts() {
+    clearInterval(sliderInterval);
 
     const result = await getAllProducts()
 
@@ -412,7 +447,7 @@ function NextPrev(evt) {
 
 
 function toggleMobileMenu() {
-    mobileMenuContainer.classList.toggle("!hidden")
+    mobileMenuContainer.classList.toggle("scale-x-0")
 }  
 
 
@@ -429,6 +464,7 @@ function animateHeaderSlider() {
 setInterval(animateHeaderSlider, 20);
 
 function router() {
+    
     let currentAddress = location.pathname;
     currentAddress = currentAddress.split('/').at(-1)
 
@@ -445,6 +481,8 @@ function router() {
         case currentAddress === 'cart':
             renderCart();
             break;
+        case currentAddress === 'electronics'||currentAddress ==='jewelery'||currentAddress ==="men's%20clothing"||currentAddress ==="women's%20clothing":
+            sortHandle(currentAddress)
         default:
             break;
     }
