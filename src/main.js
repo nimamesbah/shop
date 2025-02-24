@@ -111,7 +111,7 @@ function renderSlider(items) {
 
 
         document.querySelector("#slide > img").classList.add("left-[1.5rem]")
-        document.querySelector("#slide > span").classList.add("right-[10.5rem]")
+        document.querySelector("#slide > span").classList.add("right-[3.5rem]")
     }, 100)
 
 }

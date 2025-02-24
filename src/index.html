@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script type="module" src="main.js" defer></script>
+    <title>simple shop</title>
+    <script  src="main.js" defer></script>
     <!-- <script type="module" src="services.js"></script> -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="output.css">
@@ -15,6 +15,7 @@
             font-family: Arial, Helvetica, sans-serif;
         }
     </style>
+    <link rel="shortcut icon" href="/src/public/images/images/shop.png" type="image/x-icon">
 
 </head>
 
@@ -80,7 +81,7 @@
                 <a class="block" href="/src/index.html">خانه</a>
                 <a onclick="headerCartHandle()" class="cursor-pointer " id="headCartBtn">سبد خرید</a>
                 <a onclick="sortMobileToggle()" class="block" href="#">دسته بندی ها</a>
-                <div id="sortListMobile" class="w-48 text-sm  scale-y-0 origin-top duration-200 font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                <div id="sortListMobile" class="w-48 text-sm z-50  scale-y-0 origin-top duration-200 font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                     <a onclick="handleAClick(event,`jewelery`)" href="#" class="block w-full px-4 py-2 border-b border-gray-200 cursor-pointer hover:bg-gray-100 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white">
                         جواهرات
                     </a>
@@ -98,7 +99,7 @@
             </div>
         </div>
 
-        <div id="header-slider" class="flex gap-7  overflow-x-hidden bg-black relative text-white py-4 !scrollbar-hide">
+        <div id="header-slider" class="flex gap-7 -z-50  overflow-x-hidden bg-black relative text-white py-4 !scrollbar-hide">
             <div class="animate-marquee whitespace-nowrap flex gap-7">
                 <span class="shrink-0">مشتریان جدید با کد {GET10} %10 صرفه جویی می کنند</span>
                 <span class="shrink-0">ارسال رایگان برای تمامی سفارشات بالای 50 هزار تومان</span>
@@ -195,7 +196,7 @@
         </div>
     </div>
     <div class="px-4 py-6 bg-gray-100 dark:bg-gray-700 md:flex md:items-center md:justify-between w-full">
-        <span class="text-sm text-gray-500 dark:text-gray-300 sm:text-center">© 2023 <a href="https://flowbite.com/">Flowbite™</a>. All Rights Reserved.
+        <span class="text-sm text-gray-500 dark:text-gray-300 sm:text-center">. All Rights Reserved.
         </span>
         <div class="flex mt-4 sm:justify-between md:mt-0 gap-3 ">
             <a href="#" class="text-gray-400 hover:text-gray-900 dark:hover:text-white">
