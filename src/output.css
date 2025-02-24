@@ -630,6 +630,27 @@
   .border-red-400 {
     border-color: var(--color-red-400);
   }
+  .bg-\[\#\#FAF9F6\] {
+    background-color: ##FAF9F6;
+  }
+  .bg-\[\#0096FF\] {
+    background-color: #0096FF;
+  }
+  .bg-\[\#A7C7E7\] {
+    background-color: #A7C7E7;
+  }
+  .bg-\[\#F0FFFF\] {
+    background-color: #F0FFFF;
+  }
+  .bg-\[\#F9F6EE\] {
+    background-color: #F9F6EE;
+  }
+  .bg-\[\#FAF9F6\] {
+    background-color: #FAF9F6;
+  }
+  .bg-\[\#FFF5EE\] {
+    background-color: #FFF5EE;
+  }
   .bg-black {
     background-color: var(--color-black);
   }
