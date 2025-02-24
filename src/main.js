@@ -1,3 +1,4 @@
+
 async function getAllProducts() {
     return await fetch("https://fakestoreapi.com/products")
         .then(res => res.json())
@@ -40,7 +41,7 @@ let sliderInterval;
 const slides = [
     {
         id: 1,
-        title: "برای سوپرایز آماده شودی",
+        title: "تخفیف های جدیدمونو دیدی؟",
         img: "gholaam.webp",
         bg: "rgb(255, 255, 97)"
 
@@ -53,7 +54,9 @@ const slides = [
     },
     {
         id: 3,
-        title: "مد برای هر مکان",
+        title: `مد برای
+         هر مکان`
+        ,
         img: "javad.webp",
         bg: "rgb(171, 245, 193)"
     }
@@ -66,7 +69,7 @@ function renderSlider(items) {
             <div id="slide" class=" w-full h-full  inline-block  absolute top-0 left-0">
                 <img class="w-[200px] sm:w-[350px] absolute bottom-0 duration-1000 left-[-15.5rem]" src="./public/images/images/${items[count].img}" width="500" />
 
-                <span class="absolute duration-1000 top-1/2 right-[-15.5rem] max-w-80">
+                <span class="absolute duration-1000 top-1/2 right-[-15.5rem] w-max  sm:text-4xl">
                 ${items[count].title}
                 </span>
 
@@ -108,7 +111,7 @@ function renderSlider(items) {
 
 
         document.querySelector("#slide > img").classList.add("left-[1.5rem]")
-        document.querySelector("#slide > span").classList.add("right-[2.5rem]")
+        document.querySelector("#slide > span").classList.add("right-[10.5rem]")
     }, 100)
 
 }
@@ -208,6 +211,7 @@ async function sortHandle(sort){
 }
 function headerCartHandle(){
     history.replaceState({}, "", "/src/product/cart")
+    document.getElementById("mobile-menu").classList.add("scale-x-0")
     router()
 }
 function removeFromCart(pId) {
@@ -231,6 +235,7 @@ const addToCart = (pId) => {
 }
 function sortMobileToggle() {
     document.getElementById("sortListMobile").classList.toggle("scale-y-0")
+    
 }
 
 function renderProductCard({ id, price, image, title }) {
@@ -288,7 +293,7 @@ async function renderMainPage() {
         ${template}
     </div>
     <div class="flex justify-center mt-10 mb-16">
-        <a onclick="handleAClick(event, 'all-products')" class="bg-blue-400 rounded-md px-4 py-2 text-white" href='all-products'>نمایش همه محصولات</a>
+        <a onclick="handleAClick(event, 'all-products')" class="bg-blue-400 rounded-md px-4 py-2 duration-100 hover:scale-105 text-white" href='all-products'>نمایش همه محصولات</a>
     </div>
     `
 
@@ -458,16 +463,7 @@ function toggleMobileMenu() {
 
 
 
-headerSlider.scrollLeft = headerSlider.scrollWidth
 
-function animateHeaderSlider() {
-    if (headerSlider.scrollLeft >= (headerSlider.scrollWidth / 2) * -1)
-        headerSlider.scrollLeft = (headerSlider.scrollWidth * -1);
-    else
-        headerSlider.scrollLeft += 1
-}
-
-setInterval(animateHeaderSlider, 20);
 
 function router() {
     
